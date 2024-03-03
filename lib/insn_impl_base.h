@@ -1,4 +1,7 @@
 
+#include <stdio.h>
+#include "../../wasm_doctor/wasm_doctor.c"
+
 INSN_IMPL(drop)
 {
         LOAD_PC;
