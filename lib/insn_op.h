@@ -131,11 +131,15 @@ fail:                                                                         \
                         if (ret != 0) {                                       \
                                 goto fail;                                    \
                         }                                                     \
+                        printf("void *datap %p\n", datap);                    \
                         val_c.u.i##STACK = CAST le##MEM##_decode(datap);      \
                 }                                                             \
                 PUSH_VAL(TYPE_##I_OR_F##STACK, c);                            \
-                printf("loaded %u at addr %u\n", val_c.u.i32, val_i.u.i32);   \
-                printf("previous load valid %u -------------------------------\n", validate_load(val_i.u.i32)); \
+                printf("loaded %u at addr %d (%x)\n", val_c.u.i32,            \
+                       val_i.u.i32, val_i.u.i32);                             \
+                printf("previous load valid %u "                              \
+                       "-------------------------------\n",                   \
+                       validate_load(val_i.u.i32));                           \
                 SAVE_PC;                                                      \
                 INSN_SUCCESS;                                                 \
 fail:                                                                         \
@@ -166,7 +170,8 @@ fail:                                                                         \
                         }                                                     \
                         le##MEM##_encode(datap, CAST val_v.u.i##STACK);       \
                 }                                                             \
-                printf("stored %u at addr %u\n", val_v.u.i32, val_i.u.i32);   \
+                printf("stored %u at addr %u (%x)\n", val_v.u.i32,            \
+                       val_i.u.i32, val_i.u.i32);                             \
                 register_store(val_i.u.i32);                                  \
                 SAVE_PC;                                                      \
                 INSN_SUCCESS;                                                 \
