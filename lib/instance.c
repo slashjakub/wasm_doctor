@@ -593,6 +593,7 @@ instance_execute_init(struct exec_context *ctx)
                 }
                 struct val val;
                 ret = exec_const_expr(&d->offset, TYPE_i32, &val, ctx);
+		printf("instance.c val.u.i32 %d\n", val.u.i32);
                 if (ret != 0) {
                         goto fail;
                 }

@@ -183,6 +183,7 @@ memory_init(struct exec_context *ectx, uint32_t memidx, uint32_t dataidx,
         int ret;
         bool dropped = bitmap_test(&inst->data_dropped, dataidx);
         const struct data *data = &m->datas[dataidx];
+        printf("data (init size: %d, memory: %u, offset: %u)\n", data->init_size, data->memory, *data->offset.start);
         if ((dropped && !(s == 0 && n == 0)) || s > data->init_size ||
             n > data->init_size - s) {
                 ret = trap_with_id(
@@ -198,9 +199,11 @@ memory_init(struct exec_context *ectx, uint32_t memidx, uint32_t dataidx,
         if (ret != 0) {
                 goto fail;
         }
+        printf("void *p %p\n", p);
         memcpy(p, &data->init[s], n);
         ret = 0;
 fail:
+        printf("ret %d\n", ret);
         return ret;
 }
 
