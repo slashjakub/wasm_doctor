@@ -17,6 +17,8 @@
 #include "util.h"
 #include "xlog.h"
 
+#include "wasm_doctor.h"
+
 int
 vtrap(struct exec_context *ctx, enum trapid id, const char *fmt, va_list ap)
 {
@@ -183,7 +185,8 @@ memory_init(struct exec_context *ectx, uint32_t memidx, uint32_t dataidx,
         int ret;
         bool dropped = bitmap_test(&inst->data_dropped, dataidx);
         const struct data *data = &m->datas[dataidx];
-        printf("data (init size: %d, memory: %u, offset: %u)\n", data->init_size, data->memory, *data->offset.start);
+        printf("data (init size: %d, memory: %u, offset: %u)\n",
+               data->init_size, data->memory, *data->offset.start);
         if ((dropped && !(s == 0 && n == 0)) || s > data->init_size ||
             n > data->init_size - s) {
                 ret = trap_with_id(
@@ -201,6 +204,7 @@ memory_init(struct exec_context *ectx, uint32_t memidx, uint32_t dataidx,
         }
         printf("void *p %p\n", p);
         memcpy(p, &data->init[s], n);
+        register_store((uintptr_t)p, data->init_size);
         ret = 0;
 fail:
         printf("ret %d\n", ret);
