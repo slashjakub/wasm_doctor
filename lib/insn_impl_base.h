@@ -1,6 +1,7 @@
 
 #include <stdio.h>
-#include "../../wasm_doctor/wasm_doctor.c"
+
+#include "wasm_doctor.h"
 
 INSN_IMPL(drop)
 {
