@@ -202,9 +202,10 @@ memory_init(struct exec_context *ectx, uint32_t memidx, uint32_t dataidx,
         if (ret != 0) {
                 goto fail;
         }
-        printf("void *p %p\n", p);
         memcpy(p, &data->init[s], n);
-        register_store((uintptr_t)p, data->init_size);
+
+        register_store(*data->offset.start, data->init_size);
+
         ret = 0;
 fail:
         printf("ret %d\n", ret);
@@ -686,6 +687,9 @@ invoke(struct funcinst *finst, const struct resulttype *paramtype,
 
         /* Sanity check */
         assert(ctx->stack.lsize >= resulttype_cellsize(&ft->parameter));
+
+        printf("registering stack at %lu of size %d\n", (uintptr_t)ctx->p,
+               ctx->stack.lsize);
 
         /*
          * Set up the context as if it was a restart of a "call" instruction.

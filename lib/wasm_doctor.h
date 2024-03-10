@@ -4,11 +4,11 @@
 #include <stdint.h>
 
 struct valid_block {
-        uintptr_t addr;
-        uint64_t size;
+        uint32_t addr;
+        uint32_t size;
 };
 
-void register_store(uintptr_t address, uint64_t size);
-uint8_t validate_load(uintptr_t address);
+void register_store(uint32_t address, uint32_t size);
+uint8_t validate_load(uint32_t address);
 
 #endif /* WASM_DOCTOR */
