@@ -133,9 +133,9 @@ fail:                                                                         \
                         }                                                     \
                         val_c.u.i##STACK = CAST le##MEM##_decode(datap);      \
                                                                               \
-                        printf("loaded (valid: %d) %u at addr %d (%x)\n",     \
-                               validate_load(val_i.u.i32), val_c.u.i32,       \
-                               val_i.u.i32, val_i.u.i32);                     \
+                        printf("loaded %10u at addr %10d (valid: %d)\n",      \
+                               val_c.u.i32, val_i.u.i32,                      \
+                               validate_load(val_i.u.i32));                   \
                 }                                                             \
                 PUSH_VAL(TYPE_##I_OR_F##STACK, c);                            \
                 SAVE_PC;                                                      \
@@ -168,8 +168,8 @@ fail:                                                                         \
                         }                                                     \
                         le##MEM##_encode(datap, CAST val_v.u.i##STACK);       \
                                                                               \
-                        printf("stored %u at addr %u (%x)\n", val_v.u.i32,    \
-                               val_i.u.i32, val_i.u.i32);                     \
+                        printf("stored %10u at addr %10u\n", val_v.u.i32,     \
+                               val_i.u.i32);                                  \
                         register_store(val_i.u.i32, 1);                       \
                 }                                                             \
                 SAVE_PC;                                                      \
