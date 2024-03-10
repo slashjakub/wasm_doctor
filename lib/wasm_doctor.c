@@ -2,12 +2,17 @@
 
 #include "wasm_doctor.h"
 
-uint64_t idx;
+uint32_t idx = 0;
 struct valid_block valid_blocks[100000] = {0};
 
 void
-register_store(uintptr_t address, uint64_t size)
+register_store(uint32_t address, uint32_t size)
 {
+        /* if (idx <= 12 && idx > 2) { */
+        /* ++idx; */
+        /* return; */
+        /* } */
+
         struct valid_block new_valid_block = {
                 .addr = address,
                 .size = size,
@@ -17,13 +22,11 @@ register_store(uintptr_t address, uint64_t size)
 }
 
 uint8_t
-validate_load(uintptr_t address)
+validate_load(uint32_t address)
 {
-        for (uint64_t i = 0; i < idx; ++i) {
+        for (uint32_t i = 0; i < idx; ++i) {
                 if (valid_blocks[i].addr <= address &&
-                    address <=
-                            valid_blocks[i].addr +
-                                    sizeof(uintptr_t) * valid_blocks[i].size) {
+                    address <= valid_blocks[i].addr + valid_blocks[i].size) {
                         return 1;
                 }
         }
