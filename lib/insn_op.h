@@ -114,6 +114,9 @@ fail:                                                                         \
 #define LOADOP2(NAME, MEM, STACK, CAST, I_OR_F)                               \
         INSN_IMPL(NAME)                                                       \
         {                                                                     \
+                if (ECTX)                                                     \
+                        printf("previous stack pointer %u\n",                 \
+                               ECTX->stack.p->x);                             \
                 const struct module *m = MODULE;                              \
                 struct memarg memarg;                                         \
                 int ret;                                                      \
@@ -136,6 +139,9 @@ fail:                                                                         \
                         printf("loaded %10u at addr %10d (valid: %d)\n",      \
                                val_c.u.i32, val_i.u.i32,                      \
                                validate_load(val_i.u.i32));                   \
+                                                                              \
+                        printf("current stack pointer %u\n",                  \
+                               ECTX->stack.p->x);                             \
                 }                                                             \
                 PUSH_VAL(TYPE_##I_OR_F##STACK, c);                            \
                 SAVE_PC;                                                      \
@@ -149,6 +155,9 @@ fail:                                                                         \
 #define STOREOP2(NAME, MEM, STACK, CAST, I_OR_F)                              \
         INSN_IMPL(NAME)                                                       \
         {                                                                     \
+                if (ECTX)                                                     \
+                        printf("previous stack pointer %u\n",                 \
+                               ECTX->stack.p->x);                             \
                 const struct module *m = MODULE;                              \
                 struct memarg memarg;                                         \
                 int ret;                                                      \
@@ -170,7 +179,10 @@ fail:                                                                         \
                                                                               \
                         printf("stored %10u at addr %10u\n", val_v.u.i32,     \
                                val_i.u.i32);                                  \
-                        register_store(val_i.u.i32, 1);                       \
+                        register_store(0, ECTX->stack.p->x);                  \
+                                                                              \
+                        printf("current stack pointer %u\n",                  \
+                               ECTX->stack.p->x);                             \
                 }                                                             \
                 SAVE_PC;                                                      \
                 INSN_SUCCESS;                                                 \

@@ -401,7 +401,7 @@ fail:
         INSN_FAIL;
 }
 
-INSN_IMPL(return)
+INSN_IMPL(return )
 {
         int ret;
         if (EXECUTING) {
@@ -431,7 +431,8 @@ INSN_IMPL(call)
         CHECK(funcidx < m->nimportedfuncs + m->nfuncs);
         if (EXECUTING) {
                 struct exec_context *ectx = ECTX;
-                schedule_call(ectx, VEC_ELEM(ectx->instance->funcs, funcidx));
+                schedule_call(ectx, VEC_ELEM(ectx->instance->funcs,
+                                             funcidx)); // <-------
         } else if (VALIDATING) {
                 struct validation_context *vctx = VCTX;
                 const struct functype *ft = module_functype(m, funcidx);
@@ -472,7 +473,7 @@ INSN_IMPL(call_indirect)
                 if (__predict_false(ret != 0)) {
                         goto fail;
                 }
-                schedule_call(ectx, func);
+                schedule_call(ectx, func); // <-------
         } else if (VALIDATING) {
                 struct validation_context *vctx = VCTX;
                 const struct tabletype *tab = module_tabletype(m, tableidx);

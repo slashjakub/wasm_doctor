@@ -371,6 +371,7 @@ void
 global_get(struct globalinst *ginst, struct val *val)
 {
         *val = ginst->val;
+        printf("          global_get val %u\n", val->u.i32);
 }
 
 static void

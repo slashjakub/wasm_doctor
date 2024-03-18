@@ -1,3 +1,4 @@
+#include <stdio.h>
 #define _NETBSD_SOURCE /* old NetBSD math.h bug workaround */
 
 #include <assert.h>
@@ -125,10 +126,17 @@ local_getptr(struct exec_context *ectx, uint32_t localidx, uint32_t *cszp)
 {
         uint32_t cidx = frame_locals_cellidx(ectx, localidx, cszp);
 #if defined(TOYWASM_USE_LOCALS_CACHE)
+        printf("local_getptr x: %u (uint64_t)\n",
+               ectx->current_locals[cidx].x);
         return &ectx->current_locals[cidx];
 #else
         const struct funcframe *frame = &VEC_LASTELEM(ectx->frames);
-        return &frame_locals(ectx, frame)[cidx];
+        printf("local_getptr x: %u (uint64_t)\n",
+               frame_locals(ectx, frame)[cidx].x);
+        return &frame_locals(ectx,
+                             frame)[cidx]; // <----- take inspiration here for
+                                           // local.set 4 (validate stack
+                                           // pointer +/- 4 size of each local)
 #endif
 }
 
@@ -140,6 +148,8 @@ local_get(struct exec_context *ctx, uint32_t localidx, struct cell *stack,
         assert(stack < ctx->stack.p + ctx->stack.psize);
         const struct cell *cells;
         cells = local_getptr(ctx, localidx, cszp);
+        printf("stack psize %u\n", ctx->stack.psize);
+        printf("local_get value %u\n", ctx->stack.p->x);
         cells_copy(stack, cells, *cszp);
 }
 

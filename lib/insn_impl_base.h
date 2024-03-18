@@ -87,6 +87,7 @@ INSN_IMPL(local_get)
 
         LOAD_PC;
         READ_LEB_U32(localidx);
+        printf("local.get %u\n", localidx);
         struct val val_c;
         if (EXECUTING) {
                 struct exec_context *ectx = ECTX;
@@ -162,6 +163,7 @@ INSN_IMPL(global_get)
                 struct globalinst *ginst =
                         VEC_ELEM(ECTX->instance->globals, globalidx);
                 global_get(ginst, &val_c);
+                printf("val_c %u\n", val_c.u.i32);
         } else if (VALIDATING) {
                 struct validation_context *vctx = VCTX;
                 if (vctx->const_expr) {
@@ -214,6 +216,7 @@ INSN_IMPL(global_set)
         if (EXECUTING) {
                 struct globalinst *ginst =
                         VEC_ELEM(ECTX->instance->globals, globalidx);
+                printf("val_a %u\n", val_a.u.i32);
                 global_set(ginst, &val_a);
         }
         SAVE_PC;

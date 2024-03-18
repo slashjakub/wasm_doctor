@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <inttypes.h>
 #include <stdalign.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -173,6 +174,9 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         struct funcframe *frame;
         int ret;
 
+        if (ctx->stack.p)
+                printf("aaaaactx->stack %p\n", (void *)ctx->stack.p);
+
         if (ctx->frames.lsize == ctx->options.max_frames) {
                 return trap_with_id(ctx, TRAP_TOO_MANY_FRAMES,
                                     "too many frames");
@@ -281,9 +285,13 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
 #if defined(TOYWASM_USE_SEPARATE_LOCALS)
         assert(ctx->locals.lsize + nlocals <= ctx->locals.psize);
         ctx->locals.lsize += nlocals;
+        printf("separate locals --------%u\n", ctx->locals.lsize);
 #else
         assert(ctx->stack.lsize + nlocals + ei->maxcells <= ctx->stack.psize);
         ctx->stack.lsize += nlocals;
+        printf("stack size with locals--------%u\n", ctx->stack.lsize);
+        printf("stack p with locals--------%u\n", ctx->stack.p->x);
+// TODO: invalidate addresses of locals here
 #endif
         set_current_frame(ctx, frame, ei);
         assert(ctx->ei == ei);
@@ -302,6 +310,10 @@ frame_exit(struct exec_context *ctx)
          * Some of the callers actually rely on the behavior and use
          * the frame after calling this function.
          */
+
+        // here
+
+        printf("ctx->frames.lsize %u\n", ctx->frames.lsize);
         struct funcframe *frame;
         assert(ctx->frames.lsize > 0);
         frame = VEC_POP(ctx->frames);
