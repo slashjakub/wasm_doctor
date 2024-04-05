@@ -119,6 +119,7 @@ fail:                                                                         \
                 int ret;                                                      \
                 LOAD_PC;                                                      \
                 READ_MEMARG(&memarg);                                         \
+                uint32_t offset = memarg.offset;                              \
                 CHECK(memarg.memidx < m->nimportedmems + m->nmems);           \
                 CHECK(1 <= (MEM / 8) >>                                       \
                       memarg.align); /* 2 ** align <= N / 8 */                \
@@ -154,6 +155,7 @@ fail:                                                                         \
                 int ret;                                                      \
                 LOAD_PC;                                                      \
                 READ_MEMARG(&memarg);                                         \
+                uint32_t offset = memarg.offset;                              \
                 CHECK(memarg.memidx < m->nimportedmems + m->nmems);           \
                 CHECK(1 <= (MEM / 8) >>                                       \
                       memarg.align); /* 2 ** align <= N / 8 */                \
