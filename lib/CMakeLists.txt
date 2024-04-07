@@ -34,7 +34,8 @@ set(lib_core_sources
 	"vec.c"
 	"xlog.c"
 	"${CMAKE_BINARY_DIR}/toywasm_config.c"
-	"wasm_doctor.c"
+	"../wasm_doctor/wasm_doctor.c"
+	"../wasm_doctor/mem_addr_validator.c"
 )
 
 if(TOYWASM_ENABLE_WASM_THREADS)
@@ -90,7 +91,8 @@ set(lib_core_headers
 	"xlog.h"
 	"${CMAKE_BINARY_DIR}/toywasm_config.h"
 	"${CMAKE_BINARY_DIR}/toywasm_version.h"
-	"wasm_doctor.h"
+	"../wasm_doctor/wasm_doctor.h"
+	"../wasm_doctor/mem_addr_validator.h"
 )
 
 add_library(toywasm-lib-core STATIC ${lib_core_sources} ${lib_core_sources_writer})

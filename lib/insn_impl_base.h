@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 
-#include "wasm_doctor.h"
+#include "../wasm_doctor/wasm_doctor.h"
 
 INSN_IMPL(drop)
 {
@@ -214,6 +214,8 @@ INSN_IMPL(global_set)
         if (EXECUTING) {
                 struct globalinst *ginst =
                         VEC_ELEM(ECTX->instance->globals, globalidx);
+                move_shadow_stack_pointer(val_a.u.i32);
+                printf("moved shadow stack pointer to %u\n", val_a.u.i32);
                 global_set(ginst, &val_a);
         }
         SAVE_PC;
