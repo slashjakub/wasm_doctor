@@ -16,6 +16,8 @@
 #include "util.h"
 #include "xlog.h"
 
+#include "../wasm_doctor/wasm_doctor.h"
+
 static int
 find_entry_for_import(
         const struct import_object *imports, const struct import *im,
@@ -593,11 +595,13 @@ instance_execute_init(struct exec_context *ctx)
                 }
                 struct val val;
                 ret = exec_const_expr(&d->offset, TYPE_i32, &val, ctx);
-		printf("instance.c val.u.i32 %d\n", val.u.i32);
+                /* printf("instance.c val.u.i32 %d\n", val.u.i32); */
                 if (ret != 0) {
                         goto fail;
                 }
                 uint32_t offset = val.u.i32;
+                printf("offset %u, d->init_size %u\n", offset, d->init_size);
+                register_store(offset, d->init_size);
                 ret = memory_init(ctx, d->memory, i, offset, 0, d->init_size);
                 if (ret != 0) {
                         goto fail;

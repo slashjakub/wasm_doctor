@@ -185,8 +185,6 @@ memory_init(struct exec_context *ectx, uint32_t memidx, uint32_t dataidx,
         int ret;
         bool dropped = bitmap_test(&inst->data_dropped, dataidx);
         const struct data *data = &m->datas[dataidx];
-        printf("data (init size: %d, memory: %u, offset: %u)\n",
-               data->init_size, data->memory, *data->offset.start);
         if ((dropped && !(s == 0 && n == 0)) || s > data->init_size ||
             n > data->init_size - s) {
                 ret = trap_with_id(
@@ -204,11 +202,12 @@ memory_init(struct exec_context *ectx, uint32_t memidx, uint32_t dataidx,
         }
         memcpy(p, &data->init[s], n);
 
-        register_store(*data->offset.start, data->init_size);
+        /* printf("data (init size: %d, memory: %u, offset: %u)\n", */
+        /* data->init_size, data->memory, ); */
+        /* register_store(*data->offset.start, data->init_size); */
 
         ret = 0;
 fail:
-        printf("ret %d\n", ret);
         return ret;
 }
 
@@ -688,8 +687,8 @@ invoke(struct funcinst *finst, const struct resulttype *paramtype,
         /* Sanity check */
         assert(ctx->stack.lsize >= resulttype_cellsize(&ft->parameter));
 
-        printf("registering stack at %lu of size %d\n", (uintptr_t)ctx->p,
-               ctx->stack.lsize);
+        /* printf("registering stack at %lu of size %d\n", (uintptr_t)ctx->p,
+         * ctx->stack.lsize); */
 
         /*
          * Set up the context as if it was a restart of a "call" instruction.
