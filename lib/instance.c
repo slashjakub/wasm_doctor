@@ -601,7 +601,7 @@ instance_execute_init(struct exec_context *ctx)
                 }
                 uint32_t offset = val.u.i32;
                 printf("offset %u, d->init_size %u\n", offset, d->init_size);
-                register_store(offset, d->init_size);
+                shadow_store(offset, d->init_size);
                 ret = memory_init(ctx, d->memory, i, offset, 0, d->init_size);
                 if (ret != 0) {
                         goto fail;
