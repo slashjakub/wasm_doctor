@@ -18,6 +18,8 @@
 #include "vec.h"
 #include "xlog.h"
 
+#include "../wasm_doctor/wasm_doctor.h"
+
 enum longopt {
         opt_disable_jump_table = 0x100,
         opt_disable_localtype_cellidx,
@@ -272,6 +274,8 @@ print_usage(void)
 int
 main(int argc, char *const *argv)
 {
+        doctor_init(2); // TODO: change to actual size defined in the wasm
+
         struct repl_state *state;
 #if defined(TOYWASM_ENABLE_WASI)
         VEC(, const char *) wasi_envs;

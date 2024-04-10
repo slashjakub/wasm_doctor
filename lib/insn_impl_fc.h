@@ -94,9 +94,10 @@ retry:
                 memmove(dst_p, src_p, n);
 
                 // TODO: handle validity properly
-                register_store(val_d.u.i32, val_n.u.i32);
-                printf("memory of size %u copied at addr %10u\n", val_n.u.i32,
-                       val_d.u.i32);
+                /* register_store(val_d.u.i32, val_n.u.i32); */
+                /* printf("memory of size %u copied at addr %10u\n",
+                 * val_n.u.i32, */
+                /* val_d.u.i32); */
         }
         SAVE_PC;
         INSN_SUCCESS;
@@ -125,9 +126,9 @@ INSN_IMPL(memory_fill)
                 memset(vp, (uint8_t)val_val.u.i32, n);
 
                 // TODO: handle validity properly
-                register_store(val_d.u.i32, val_n.u.i32);
-                printf("memory of size %u filled with %u at addr %10u\n",
-                       val_n.u.i32, val_val.u.i32, val_d.u.i32);
+                /* register_store(val_d.u.i32, val_n.u.i32); */
+                /* printf("memory of size %u filled with %u at addr %10u\n", */
+                /* val_n.u.i32, val_val.u.i32, val_d.u.i32); */
         }
         SAVE_PC;
         INSN_SUCCESS;
