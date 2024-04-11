@@ -3,6 +3,8 @@
 
 #include "../wasm_doctor/wasm_doctor.h"
 
+#define EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX 0
+
 INSN_IMPL(drop)
 {
         LOAD_PC;
@@ -214,8 +216,13 @@ INSN_IMPL(global_set)
         if (EXECUTING) {
                 struct globalinst *ginst =
                         VEC_ELEM(ECTX->instance->globals, globalidx);
-                move_shadow_stack_pointer(val_a.u.i32);
-                printf("moved shadow stack pointer to %u\n", val_a.u.i32);
+
+                if (globalidx == EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX) {
+                        move_shadow_stack_pointer(val_a.u.i32);
+                        printf("moved shadow stack pointer to %u\n",
+                               val_a.u.i32);
+                }
+
                 global_set(ginst, &val_a);
         }
         SAVE_PC;
