@@ -17,7 +17,7 @@
 #include "util.h"
 #include "xlog.h"
 
-#include "../wasm_doctor/wasm_doctor.h"
+#include "../wasm_doctor/src/wasm_doctor.h"
 
 int
 vtrap(struct exec_context *ctx, enum trapid id, const char *fmt, va_list ap)
