@@ -16,7 +16,7 @@
 #include "util.h"
 #include "xlog.h"
 
-#include "../wasm_doctor/wasm_doctor.h"
+#include "../wasm_doctor/src/wasm_doctor.h"
 
 static int
 find_entry_for_import(

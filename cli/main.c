@@ -18,7 +18,7 @@
 #include "vec.h"
 #include "xlog.h"
 
-#include "../wasm_doctor/wasm_doctor.h"
+#include "../wasm_doctor/src/wasm_doctor.h"
 
 enum longopt {
         opt_disable_jump_table = 0x100,

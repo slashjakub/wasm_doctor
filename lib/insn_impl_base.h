@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 
-#include "../wasm_doctor/wasm_doctor.h"
+#include "../wasm_doctor/src/wasm_doctor.h"
 
 #define EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX 0
 
