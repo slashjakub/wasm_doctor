@@ -274,8 +274,6 @@ print_usage(void)
 int
 main(int argc, char *const *argv)
 {
-        doctor_init(2); // TODO: change to actual size defined in the wasm
-
         struct repl_state *state;
 #if defined(TOYWASM_ENABLE_WASI)
         VEC(, const char *) wasi_envs;
