@@ -194,6 +194,11 @@ memory_instance_create(struct meminst **mip,
         mp->size_in_pages = mt->lim.min;
         mp->type = mt;
         *mip = mp;
+
+        doctor_init(mp->size_in_pages);
+        printf("Wasm Doctor initialized with %u page memory.\n",
+               mp->size_in_pages);
+
         return 0;
 fail:
         return ret;
@@ -213,6 +218,9 @@ memory_instance_destroy(struct meminst *mi)
                 free(mi->data);
         }
         free(mi);
+
+        doctor_exit();
+        printf("Wasm Doctor analysis stopped.\n");
 }
 
 int
