@@ -36,6 +36,7 @@ set(lib_core_sources
 	"${CMAKE_BINARY_DIR}/toywasm_config.c"
 	"../wasm_doctor/src/wasm_doctor.c"
 	"../wasm_doctor/src/mem_addr_validator.c"
+	"../wasm_doctor/src/heap_use_validator.c"
 )
 
 if(TOYWASM_ENABLE_WASM_THREADS)
@@ -93,6 +94,7 @@ set(lib_core_headers
 	"${CMAKE_BINARY_DIR}/toywasm_version.h"
 	"../wasm_doctor/src/wasm_doctor.h"
 	"../wasm_doctor/src/mem_addr_validator.h"
+	"../wasm_doctor/src/heap_use_validator.h"
 )
 
 add_library(toywasm-lib-core STATIC ${lib_core_sources} ${lib_core_sources_writer})
