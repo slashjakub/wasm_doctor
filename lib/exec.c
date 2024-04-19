@@ -300,8 +300,8 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         nametable_lookup_func(&table, inst->module, funcidx, &func_name);
         printf("function (%.*s) entered\n", CSTR(&func_name));
 
-        if (strncmp("malloc", func_name.data, 6) == 0) {
-                printf("malloc param: %u\n", params[0].x);
+        if (strncmp("dlmalloc", func_name.data, 6) == 0) {
+                printf("dlmalloc param: %u\n", params[0].x);
                 malloced_size = params[0].x;
         }
 
@@ -356,8 +356,8 @@ frame_exit(struct exec_context *ctx)
                               &func_name);
         printf("function (%.*s) exited\n", CSTR(&func_name));
 
-        if (strncmp("malloc", func_name.data, 6) == 0) {
-                printf("malloc result: %u\n", VEC_LASTELEM(ctx->stack).x);
+        if (strncmp("dlmalloc", func_name.data, 8) == 0) {
+                printf("dlmalloc result: %u\n", VEC_LASTELEM(ctx->stack).x);
                 doctor_register_malloc(VEC_LASTELEM(ctx->stack).x,
                                        malloced_size);
         }
