@@ -21,6 +21,7 @@
 #include "util.h"
 #include "xlog.h"
 
+#include "../wasm_doctor/src/wasm_doctor.h"
 #include "name.h"
 
 /*
@@ -46,6 +47,8 @@ _Static_assert(alignof(_Atomic uint8_t) <= 1, "atomic 8 align");
 _Static_assert(alignof(_Atomic uint16_t) <= 2, "atomic 16 align");
 _Static_assert(alignof(_Atomic uint32_t) <= 4, "atomic 32 align");
 _Static_assert(alignof(_Atomic uint64_t) <= 8, "atomic 64 align");
+
+uint32_t malloced_size;
 
 void
 frame_clear(struct funcframe *frame)
@@ -297,6 +300,16 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         nametable_lookup_func(&table, inst->module, funcidx, &func_name);
         printf("function (%.*s) entered\n", CSTR(&func_name));
 
+        if (strncmp("malloc", func_name.data, 6) == 0) {
+                printf("malloc param: %u\n", params[0].x);
+                malloced_size = params[0].x;
+        }
+
+        if (strncmp("free", func_name.data, 4) == 0) {
+                printf("free param: %u\n", params[0].x);
+                doctor_register_free(params[0].x);
+        }
+
         return 0;
 }
 
@@ -342,6 +355,12 @@ frame_exit(struct exec_context *ctx)
         nametable_lookup_func(&table, ctx->instance->module, frame->funcidx,
                               &func_name);
         printf("function (%.*s) exited\n", CSTR(&func_name));
+
+        if (strncmp("malloc", func_name.data, 6) == 0) {
+                printf("malloc result: %u\n", VEC_LASTELEM(ctx->stack).x);
+                doctor_register_malloc(VEC_LASTELEM(ctx->stack).x,
+                                       malloced_size);
+        }
 }
 
 static const struct jump *
