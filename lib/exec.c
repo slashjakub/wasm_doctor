@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <inttypes.h>
 #include <stdalign.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -19,6 +20,8 @@
 #include "usched.h"
 #include "util.h"
 #include "xlog.h"
+
+#include "name.h"
 
 /*
  * Note: The C standard allows _Atomic types to have a different
@@ -287,6 +290,13 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
 #endif
         set_current_frame(ctx, frame, ei);
         assert(ctx->ei == ei);
+
+        struct nametable table;
+        nametable_init(&table);
+        struct name func_name;
+        nametable_lookup_func(&table, inst->module, funcidx, &func_name);
+        printf("function (%.*s) entered\n", CSTR(&func_name));
+
         return 0;
 }
 
@@ -302,6 +312,7 @@ frame_exit(struct exec_context *ctx)
          * Some of the callers actually rely on the behavior and use
          * the frame after calling this function.
          */
+
         struct funcframe *frame;
         assert(ctx->frames.lsize > 0);
         frame = VEC_POP(ctx->frames);
@@ -324,6 +335,13 @@ frame_exit(struct exec_context *ctx)
         assert(frame->localidx <= ctx->locals.lsize);
         ctx->locals.lsize = frame->localidx;
 #endif
+
+        struct nametable table;
+        nametable_init(&table);
+        struct name func_name;
+        nametable_lookup_func(&table, ctx->instance->module, frame->funcidx,
+                              &func_name);
+        printf("function (%.*s) exited\n", CSTR(&func_name));
 }
 
 static const struct jump *
