@@ -294,6 +294,8 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         set_current_frame(ctx, frame, ei);
         assert(ctx->ei == ei);
 
+        doctor_frame_enter(nlocals);
+
         struct nametable table;
         nametable_init(&table);
         struct name func_name;
@@ -348,6 +350,8 @@ frame_exit(struct exec_context *ctx)
         assert(frame->localidx <= ctx->locals.lsize);
         ctx->locals.lsize = frame->localidx;
 #endif
+
+        doctor_frame_exit();
 
         struct nametable table;
         nametable_init(&table);

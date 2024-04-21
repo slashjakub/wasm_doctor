@@ -25,6 +25,8 @@
 #include "validation.h"
 #include "xlog.h"
 
+#include "../wasm_doctor/src/wasm_doctor.h"
+
 /*
  * https://webassembly.github.io/spec/core/binary/instructions.html
  * https://webassembly.github.io/spec/core/appendix/index-instructions.html
@@ -141,6 +143,8 @@ local_get(struct exec_context *ctx, uint32_t localidx, struct cell *stack,
         const struct cell *cells;
         cells = local_getptr(ctx, localidx, cszp);
         cells_copy(stack, cells, *cszp);
+
+        doctor_local_get(localidx);
 }
 
 static void
@@ -152,6 +156,8 @@ local_set(struct exec_context *ctx, uint32_t localidx,
         struct cell *cells;
         cells = local_getptr(ctx, localidx, cszp);
         cells_copy(cells, stack - *cszp, *cszp);
+
+        doctor_local_set(localidx);
 }
 
 /*

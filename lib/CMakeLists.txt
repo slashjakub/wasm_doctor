@@ -37,6 +37,7 @@ set(lib_core_sources
 	"../wasm_doctor/src/wasm_doctor.c"
 	"../wasm_doctor/src/mem_addr_validator.c"
 	"../wasm_doctor/src/heap_use_validator.c"
+	"../wasm_doctor/src/local_validator.c"
 )
 
 if(TOYWASM_ENABLE_WASM_THREADS)
@@ -95,6 +96,7 @@ set(lib_core_headers
 	"../wasm_doctor/src/wasm_doctor.h"
 	"../wasm_doctor/src/mem_addr_validator.h"
 	"../wasm_doctor/src/heap_use_validator.h"
+        "/home/jakub/toywasm/lib/../wasm_doctor/src/local_validator.h"
 )
 
 add_library(toywasm-lib-core STATIC ${lib_core_sources} ${lib_core_sources_writer})

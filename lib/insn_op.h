@@ -137,7 +137,7 @@ fail:                                                                         \
                         printf("loaded %10u (%2d) at addr %10d (valid: "      \
                                "%d)\n",                                       \
                                val_c.u.i32, MEM, val_i.u.i32 + offset,        \
-                               shadow_load(val_i.u.i32 + offset, MEM));       \
+                               doctor_load(val_i.u.i32 + offset, MEM));       \
                 }                                                             \
                 PUSH_VAL(TYPE_##I_OR_F##STACK, c);                            \
                 SAVE_PC;                                                      \
@@ -173,7 +173,7 @@ fail:                                                                         \
                                                                               \
                         printf("stored %10u (%2d) at addr %10u\n",            \
                                val_v.u.i32, MEM, val_i.u.i32 + offset);       \
-                        shadow_store(val_i.u.i32 + offset, MEM);              \
+                        doctor_store(val_i.u.i32 + offset, MEM);              \
                 }                                                             \
                 SAVE_PC;                                                      \
                 INSN_SUCCESS;                                                 \
