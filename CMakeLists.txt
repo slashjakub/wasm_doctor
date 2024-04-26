@@ -54,7 +54,7 @@ set(cli_sources
 )
 
 add_executable(toywasm-cli ${cli_sources})
-target_link_libraries(toywasm-cli toywasm-lib-core
+target_link_libraries(toywasm-cli toywasm-lib-core ${CMAKE_SOURCE_DIR}/libwasmdoctor.a
 	$<$<BOOL:${TOYWASM_ENABLE_WASI}>:toywasm-lib-wasi>
 	$<$<BOOL:${TOYWASM_ENABLE_WASI_LITTLEFS}>:toywasm-lib-wasi-littlefs>
 	$<$<BOOL:${TOYWASM_ENABLE_DYLD}>:toywasm-lib-dyld>
