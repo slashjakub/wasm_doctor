@@ -317,6 +317,8 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
                 doctor_register_free(params[0].x);
         }
 
+        nametable_clear(&table);
+
         return 0;
 }
 
@@ -370,6 +372,8 @@ frame_exit(struct exec_context *ctx)
                 doctor_register_malloc(VEC_LASTELEM(ctx->stack).x,
                                        malloced_size);
         }
+
+        nametable_clear(&table);
 }
 
 static const struct jump *
