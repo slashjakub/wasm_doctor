@@ -294,13 +294,18 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         set_current_frame(ctx, frame, ei);
         assert(ctx->ei == ei);
 
-        doctor_frame_enter(nlocals);
-
         struct nametable table;
         nametable_init(&table);
         struct name func_name;
         nametable_lookup_func(&table, inst->module, funcidx, &func_name);
         printf("function (%.*s) entered\n", CSTR(&func_name));
+
+        char *function_name = malloc(func_name.nbytes + 1);
+        strncpy(function_name, func_name.data, func_name.nbytes);
+        function_name[func_name.nbytes] = 0;
+
+        doctor_frame_enter(nlocals, function_name);
+        free(function_name);
 
         if (strncmp("dlmalloc", func_name.data, 6) == 0) {
                 printf("dlmalloc param: %u\n", params[0].x);
