@@ -18,6 +18,8 @@
 
 #include "../wasm_doctor/src/wasm_doctor.h"
 
+static struct wasm_doctor doctor;
+
 static int
 find_entry_for_import(
         const struct import_object *imports, const struct import *im,
@@ -195,7 +197,7 @@ memory_instance_create(struct meminst **mip,
         mp->type = mt;
         *mip = mp;
 
-        doctor_init(mp->size_in_pages);
+        doctor_init(&doctor, mp->size_in_pages);
         printf("Wasm Doctor initialized with %u page memory.\n",
                mp->size_in_pages);
 
@@ -219,6 +221,7 @@ memory_instance_destroy(struct meminst *mi)
         }
         free(mi);
 
+        doctor_report();
         doctor_exit();
         printf("Wasm Doctor analysis stopped.\n");
 }
