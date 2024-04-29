@@ -218,7 +218,7 @@ INSN_IMPL(global_set)
                         VEC_ELEM(ECTX->instance->globals, globalidx);
 
                 if (globalidx == EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX) {
-                        move_shadow_stack_pointer(val_a.u.i32);
+                        doctor_move_shadow_stack_pointer(val_a.u.i32);
                         printf("moved shadow stack pointer to %u\n",
                                val_a.u.i32);
                 }
