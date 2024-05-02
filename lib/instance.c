@@ -221,7 +221,6 @@ memory_instance_destroy(struct meminst *mi)
         }
         free(mi);
 
-        doctor_report();
         doctor_exit(true);
         printf("Wasm Doctor analysis stopped.\n");
 }
