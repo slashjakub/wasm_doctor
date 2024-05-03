@@ -18,6 +18,8 @@
 
 #include "../wasm_doctor/src/wasm_doctor.h"
 
+#define EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX 0
+
 static struct wasm_doctor doctor;
 
 static int
@@ -575,6 +577,13 @@ instance_execute_init(struct exec_context *ctx)
                 if (ret != 0) {
                         goto fail;
                 }
+
+                if (i == EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX) {
+                        doctor_set_shadow_stack_pointer_base(ginst->val.u.i64);
+                        printf("shadow stack pointer base set to %lu\n",
+                               ginst->val.u.i64);
+                }
+
                 xlog_trace("global [%" PRIu32 "] initialized to %016" PRIx64,
                            m->nimportedglobals + i, ginst->val.u.i64);
         }
