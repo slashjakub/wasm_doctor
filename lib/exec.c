@@ -298,7 +298,7 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         nametable_init(&table);
         struct name func_name;
         nametable_lookup_func(&table, inst->module, funcidx, &func_name);
-        printf("function (%.*s) entered\n", CSTR(&func_name));
+        /* printf("function (%.*s) entered\n", CSTR(&func_name)); */
 
         char *function_name = malloc(func_name.nbytes + 1);
         strncpy(function_name, func_name.data, func_name.nbytes);
@@ -308,12 +308,12 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         free(function_name);
 
         if (strncmp("dlmalloc", func_name.data, 6) == 0) {
-                printf("dlmalloc param: %u\n", params[0].x);
-                malloced_size = params[0].x;
+                /* printf("dlmalloc param: %u\n", params[0].x); */
+                malloced_size = params[0].x; // TODO: solve invalid read
         }
 
         if (strncmp("free", func_name.data, 4) == 0) {
-                printf("free param: %u\n", params[0].x);
+                /* printf("free param: %u\n", params[0].x); */
                 doctor_register_free(params[0].x);
         }
 
@@ -365,10 +365,11 @@ frame_exit(struct exec_context *ctx)
         struct name func_name;
         nametable_lookup_func(&table, ctx->instance->module, frame->funcidx,
                               &func_name);
-        printf("function (%.*s) exited\n", CSTR(&func_name));
+        /* printf("function (%.*s) exited\n", CSTR(&func_name)); */
 
         if (strncmp("dlmalloc", func_name.data, 8) == 0) {
-                printf("dlmalloc result: %u\n", VEC_LASTELEM(ctx->stack).x);
+                /* printf("dlmalloc result: %u\n", VEC_LASTELEM(ctx->stack).x);
+                 */
                 doctor_register_malloc(VEC_LASTELEM(ctx->stack).x,
                                        malloced_size);
         }

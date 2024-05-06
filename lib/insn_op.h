@@ -134,8 +134,6 @@ fail:                                                                         \
                         }                                                     \
                         val_c.u.i##STACK = CAST le##MEM##_decode(datap);      \
                                                                               \
-                        printf("loaded %10u (%2d) at addr %10d\n",            \
-                               val_c.u.i32, MEM, val_i.u.i32 + offset);       \
                         doctor_load(val_i.u.i32 + offset, MEM);               \
                 }                                                             \
                 PUSH_VAL(TYPE_##I_OR_F##STACK, c);                            \
@@ -170,8 +168,6 @@ fail:                                                                         \
                         }                                                     \
                         le##MEM##_encode(datap, CAST val_v.u.i##STACK);       \
                                                                               \
-                        printf("stored %10u (%2d) at addr %10u\n",            \
-                               val_v.u.i32, MEM, val_i.u.i32 + offset);       \
                         doctor_store(val_i.u.i32 + offset, MEM);              \
                 }                                                             \
                 SAVE_PC;                                                      \

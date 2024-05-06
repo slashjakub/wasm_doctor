@@ -199,9 +199,9 @@ memory_instance_create(struct meminst **mip,
         mp->type = mt;
         *mip = mp;
 
-        doctor_init(&doctor, mp->size_in_pages);
-        printf("Wasm Doctor initialized with %u page memory.\n",
-               mp->size_in_pages);
+        doctor_init(&doctor, mp->size_in_pages, true);
+        /* printf("Wasm Doctor initialized with %u page memory.\n", */
+        /* mp->size_in_pages); */
 
         return 0;
 fail:
@@ -224,7 +224,7 @@ memory_instance_destroy(struct meminst *mi)
         free(mi);
 
         doctor_exit(true);
-        printf("Wasm Doctor analysis stopped.\n");
+        /* printf("Wasm Doctor analysis stopped.\n"); */
 }
 
 int
@@ -580,8 +580,8 @@ instance_execute_init(struct exec_context *ctx)
 
                 if (i == EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX) {
                         doctor_set_shadow_stack_pointer_base(ginst->val.u.i64);
-                        printf("shadow stack pointer base set to %lu\n",
-                               ginst->val.u.i64);
+                        /* printf("shadow stack pointer base set to %lu\n", */
+                        /* ginst->val.u.i64); */
                 }
 
                 xlog_trace("global [%" PRIu32 "] initialized to %016" PRIx64,
@@ -619,7 +619,8 @@ instance_execute_init(struct exec_context *ctx)
                         goto fail;
                 }
                 uint32_t offset = val.u.i32;
-                printf("offset %u, d->init_size %u\n", offset, d->init_size);
+                /* printf("offset %u, d->init_size %u\n", offset,
+                 * d->init_size); */
                 doctor_global_data_validate(offset, d->init_size * 8);
                 ret = memory_init(ctx, d->memory, i, offset, 0, d->init_size);
                 if (ret != 0) {

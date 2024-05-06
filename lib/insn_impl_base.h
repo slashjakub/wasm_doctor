@@ -219,8 +219,8 @@ INSN_IMPL(global_set)
 
                 if (globalidx == EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX) {
                         doctor_move_shadow_stack_pointer(val_a.u.i32);
-                        printf("moved shadow stack pointer to %u\n",
-                               val_a.u.i32);
+                        /* printf("moved shadow stack pointer to %u\n", */
+                        /* val_a.u.i32); */
                 }
 
                 global_set(ginst, &val_a);
