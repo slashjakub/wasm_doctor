@@ -134,7 +134,7 @@ fail:                                                                         \
                         }                                                     \
                         val_c.u.i##STACK = CAST le##MEM##_decode(datap);      \
                                                                               \
-                        doctor_load(val_i.u.i32 + offset, MEM);               \
+                        doctor_load(val_i.u.i32 + offset, MEM / 8);           \
                 }                                                             \
                 PUSH_VAL(TYPE_##I_OR_F##STACK, c);                            \
                 SAVE_PC;                                                      \
@@ -168,7 +168,7 @@ fail:                                                                         \
                         }                                                     \
                         le##MEM##_encode(datap, CAST val_v.u.i##STACK);       \
                                                                               \
-                        doctor_store(val_i.u.i32 + offset, MEM);              \
+                        doctor_store(val_i.u.i32 + offset, MEM / 8);          \
                 }                                                             \
                 SAVE_PC;                                                      \
                 INSN_SUCCESS;                                                 \

@@ -621,7 +621,7 @@ instance_execute_init(struct exec_context *ctx)
                 uint32_t offset = val.u.i32;
                 /* printf("offset %u, d->init_size %u\n", offset,
                  * d->init_size); */
-                doctor_global_data_validate(offset, d->init_size * 8);
+                doctor_global_data_validate(offset, d->init_size);
                 ret = memory_init(ctx, d->memory, i, offset, 0, d->init_size);
                 if (ret != 0) {
                         goto fail;
