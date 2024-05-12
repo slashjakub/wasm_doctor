@@ -18,7 +18,7 @@
 
 #include "../wasm_doctor/src/wasm_doctor.h"
 
-#define EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX 0
+#define EXPECTED_CLANG_LINEAR_STACK_POINTER_IDX 0
 
 static struct wasm_doctor doctor;
 
@@ -578,8 +578,8 @@ instance_execute_init(struct exec_context *ctx)
                         goto fail;
                 }
 
-                if (i == EXPECTED_CLANG_SHADOW_STACK_POINTER_IDX) {
-                        doctor_set_shadow_stack_pointer_base(ginst->val.u.i64);
+                if (i == EXPECTED_CLANG_LINEAR_STACK_POINTER_IDX) {
+                        doctor_set_linear_stack_pointer_base(ginst->val.u.i64);
                         /* printf("shadow stack pointer base set to %lu\n", */
                         /* ginst->val.u.i64); */
                 }
