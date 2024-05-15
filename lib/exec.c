@@ -21,7 +21,7 @@
 #include "util.h"
 #include "xlog.h"
 
-#include "../wasm_doctor/src/wasm_doctor.h"
+#include "../wasm_doctor_library/src/wasm_doctor.h"
 #include "name.h"
 
 /*
