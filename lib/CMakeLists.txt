@@ -34,6 +34,14 @@ set(lib_core_sources
 	"vec.c"
 	"xlog.c"
 	"${CMAKE_BINARY_DIR}/toywasm_config.c"
+"error_reporter.c"
+"heap_use_validator.c"
+"linear_stack_validator.c"
+"local_validator.c"
+"shadow_memory_validator.c"
+"wasm_doctor.c"
+"wasm_state.c"
+"zero_address_access_validator.c"
 )
 
 if(TOYWASM_ENABLE_WASM_THREADS)
@@ -89,6 +97,14 @@ set(lib_core_headers
 	"xlog.h"
 	"${CMAKE_BINARY_DIR}/toywasm_config.h"
 	"${CMAKE_BINARY_DIR}/toywasm_version.h"
+"error_reporter.h"
+"heap_use_validator.h"
+"linear_stack_validator.h"
+"local_validator.h"
+"shadow_memory_validator.h"
+"wasm_doctor.h"
+"wasm_state.h"
+"zero_address_access_validator.h"
 )
 
 add_library(toywasm-lib-core STATIC ${lib_core_sources} ${lib_core_sources_writer})
@@ -127,4 +143,3 @@ install(TARGETS toywasm-lib-core
         PUBLIC_HEADER DESTINATION include/toywasm)
 install(EXPORT toywasm-lib-core-config
         DESTINATION lib/cmake/toywasm-lib-core)
-

@@ -22,8 +22,8 @@
 #include "util.h"
 #include "xlog.h"
 
-#include "../wasm_doctor_library/src/wasm_doctor.h"
 #include "name.h"
+#include "wasm_doctor.h"
 
 /*
  * Note: The C standard allows _Atomic types to have a different
