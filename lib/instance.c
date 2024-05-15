@@ -580,7 +580,7 @@ instance_execute_init(struct exec_context *ctx)
 
                 if (i == EXPECTED_CLANG_LINEAR_STACK_POINTER_IDX) {
                         doctor_set_linear_stack_pointer_base(ginst->val.u.i64);
-                        /* printf("shadow stack pointer base set to %lu\n", */
+                        /* printf("linear stack pointer base set to %lu\n", */
                         /* ginst->val.u.i64); */
                 }
 

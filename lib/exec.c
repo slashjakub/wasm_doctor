@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cell.h"
 #include "cluster.h"
 #include "context.h"
 #include "exec.h"
@@ -309,7 +310,8 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
 
         if (strncmp("dlmalloc", func_name.data, 6) == 0) {
                 /* printf("dlmalloc param: %u\n", params[0].x); */
-                malloced_size = params[0].x; // TODO: solve invalid read
+                // TODO: fix invalid read (works for now)
+                malloced_size = params[0].x;
         }
 
         if (strncmp("free", func_name.data, 4) == 0) {
