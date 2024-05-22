@@ -49,6 +49,7 @@ _Static_assert(alignof(_Atomic uint16_t) <= 2, "atomic 16 align");
 _Static_assert(alignof(_Atomic uint32_t) <= 4, "atomic 32 align");
 _Static_assert(alignof(_Atomic uint64_t) <= 8, "atomic 64 align");
 
+uint32_t old_malloced_address;
 uint32_t malloced_size;
 
 void
@@ -308,10 +309,17 @@ frame_enter(struct exec_context *ctx, struct instance *inst, uint32_t funcidx,
         doctor_frame_enter(nlocals, function_name);
         free(function_name);
 
-        if (strncmp("dlmalloc", func_name.data, 6) == 0) {
+        if (strncmp("dlmalloc", func_name.data, 8) == 0) {
                 /* printf("dlmalloc param: %u\n", params[0].x); */
                 // TODO: fix invalid read (works for now)
                 malloced_size = params[0].x;
+        }
+
+        if (strncmp("realloc", func_name.data, 7) == 0) {
+                /* printf("dlmalloc param: %u\n", params[0].x); */
+                // TODO: fix invalid read (works for now)
+                old_malloced_address = params[0].x;
+                malloced_size = params[1].x;
         }
 
         if (strncmp("free", func_name.data, 4) == 0) {
@@ -372,6 +380,14 @@ frame_exit(struct exec_context *ctx)
         if (strncmp("dlmalloc", func_name.data, 8) == 0) {
                 /* printf("dlmalloc result: %u\n", VEC_LASTELEM(ctx->stack).x);
                  */
+                doctor_register_malloc(VEC_LASTELEM(ctx->stack).x,
+                                       malloced_size);
+        }
+
+        if (strncmp("realloc", func_name.data, 7) == 0) {
+                /* printf("dlmalloc result: %u\n", VEC_LASTELEM(ctx->stack).x);
+                 */
+                doctor_register_free(old_malloced_address);
                 doctor_register_malloc(VEC_LASTELEM(ctx->stack).x,
                                        malloced_size);
         }
