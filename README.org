@@ -1,0 +1,3 @@
+* Wasm Doctor
+
+Wasm Doctor was created as a part of my bachelor's thesis at [[https://fit.cvut.cz/en][FIT CTU]]. It is a memory debugger similar to Valgrind's Memcheck for C programs compiled to WebAssembly. It is a fork of the [[https://github.com/yamt/toywasm][Toywasm]] WebAssembly interpreter, extended with analysis functionality provided by [[https://github.com/slashjakub/wasm_doctor_library][Wasm Doctor Library]].
